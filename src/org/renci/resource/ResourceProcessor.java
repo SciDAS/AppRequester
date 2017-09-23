@@ -89,7 +89,7 @@ public class ResourceProcessor {
 			return Response.serverError().entity("Invalid Input\n").build(); 
 		}
 		
-		System.out.println("========== Requester receives a request: ");
+		System.out.println("\n========== Requester receives a request: ");
 		System.out.println("	requesterAddress: "+requesterAddress); 
 		System.out.println("	coordinatorAddress: "+coordinatorAddress);
 		System.out.println("	name: "+name);
@@ -104,7 +104,7 @@ public class ResourceProcessor {
         WebTarget target = client.target( coordinatorAddress ); 
         Invocation.Builder invocationBuilder = target.request( "application/json" );
         Response response = invocationBuilder.post( Entity.entity( map, "application/json" ) );
-        System.out.format("========== Requester has submitted framework ( globalFrameworkId: %s) to the MesosCoordinator (%s), status: %s \n", 
+        System.out.format("\n========== Requester has submitted framework ( globalFrameworkId: %s) to the MesosCoordinator (%s), status: %s \n", 
         		globalFrameworkId, coordinatorAddress, response.readEntity(String.class).toString() ).println();
 
 		Response res = Response.ok().entity("OK\n").build(); 
