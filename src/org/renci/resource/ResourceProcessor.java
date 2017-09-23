@@ -104,8 +104,8 @@ public class ResourceProcessor {
         WebTarget target = client.target( coordinatorAddress ); 
         Invocation.Builder invocationBuilder = target.request( "application/json" );
         Response response = invocationBuilder.post( Entity.entity( map, "application/json" ) );
-        System.out.format("========== Requester has submitted for globalFrameworkId: %s, status: %s ", 
-        		globalFrameworkId, response.readEntity(String.class).toString() ).println();
+        System.out.format("========== Requester has submitted framework ( globalFrameworkId: %s) to the MesosCoordinator (%s), status: %s ", 
+        		globalFrameworkId, coordinatorAddress, response.readEntity(String.class).toString() ).println();
 
 		Response res = Response.ok().entity("OK\n").build(); 
 		return res;
