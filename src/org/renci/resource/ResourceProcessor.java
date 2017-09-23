@@ -67,7 +67,7 @@ public class ResourceProcessor {
 	private void processOffersInfo(Map<String, Object> map){
 		int count = map.size()-1;
 		for(int i=0; i<count; i++){
-			System.out.println("========== Requester receives an offer: ");
+			System.out.println("\n========== Requester receives an offer: ");
 			Map<String, Object> _map = (Map<String, Object>)map.get( String.valueOf(i) ); 
 			for(String k : _map.keySet())
 				System.out.format( "		%s: %s", k, _map.get(k) ); 
@@ -104,7 +104,7 @@ public class ResourceProcessor {
         WebTarget target = client.target( coordinatorAddress ); 
         Invocation.Builder invocationBuilder = target.request( "application/json" );
         Response response = invocationBuilder.post( Entity.entity( map, "application/json" ) );
-        System.out.format("========== Requester has submitted framework ( globalFrameworkId: %s) to the MesosCoordinator (%s), status: %s ", 
+        System.out.format("========== Requester has submitted framework ( globalFrameworkId: %s) to the MesosCoordinator (%s), status: %s \n", 
         		globalFrameworkId, coordinatorAddress, response.readEntity(String.class).toString() ).println();
 
 		Response res = Response.ok().entity("OK\n").build(); 
