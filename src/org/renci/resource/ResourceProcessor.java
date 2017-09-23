@@ -78,13 +78,12 @@ public class ResourceProcessor {
 		String requesterAddress=(String)map.get("requesterAddress");
 		String coordinatorAddress=(String)map.get("coordinatorAddress");
 		String name=(String)map.get("name");
-		BigDecimal cpus=(BigDecimal)map.get("cpus");
-		BigDecimal mem=(BigDecimal)map.get("mem");
+		String resources=(String)map.get("resources");
 		String dockerImage=(String)map.get("dockerImage"); 
 		String globalFrameworkId=(String)map.get("globalFrameworkId");
 		
-		if(requesterAddress==null || coordinatorAddress==null || name==null || cpus==null || 
-				mem==null || dockerImage==null || globalFrameworkId==null){
+		if(requesterAddress==null || coordinatorAddress==null || name==null || 
+				resources==null || dockerImage==null || globalFrameworkId==null){
 			
 			return Response.serverError().entity("Invalid Input\n").build(); 
 		}
@@ -93,8 +92,7 @@ public class ResourceProcessor {
 		System.out.println("	requesterAddress: "+requesterAddress); 
 		System.out.println("	coordinatorAddress: "+coordinatorAddress);
 		System.out.println("	name: "+name);
-		System.out.println("	cpus: "+cpus);
-		System.out.println("	mem: "+mem);
+		System.out.println("	resources: "+resources);
 		System.out.println("	dockerImage: "+dockerImage);
 		System.out.println("	globalFrameworkId: "+globalFrameworkId);
 		
