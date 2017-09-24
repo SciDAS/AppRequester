@@ -70,7 +70,7 @@ public class ResourceProcessor {
 			System.out.println("\n========== Requester receives an offer: ");
 			Map<String, Object> _map = (Map<String, Object>)map.get( String.valueOf(i) ); 
 			for(String k : _map.keySet())
-				System.out.format( "		%s: %s", k, _map.get(k) ); 
+				System.out.format( "	%s: %s", k, _map.get(k) ); 
 		}
 	}
 	
