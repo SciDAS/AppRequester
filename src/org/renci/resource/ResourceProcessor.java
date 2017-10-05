@@ -65,7 +65,7 @@ public class ResourceProcessor {
 	}
 	
 	private void processOffersInfo(Map<String, Object> map){
-		int count = map.size()-1;
+		int count = map.size();
 		for(int i=0; i<count; i++){
 			System.out.println("\n========== Requester receives an offer: ");
 			Map<String, Object> _map = (Map<String, Object>)map.get( String.valueOf(i) ); 
