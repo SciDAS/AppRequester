@@ -65,9 +65,10 @@ public class ResourceProcessor {
 	}
 	
 	private void processOffersInfo(Map<String, Object> map){
-		int count = map.size()-1; //skip the "type" field
+		int count = map.size()-2; //skip the "type", "globalFrameworkId" fields
 		for(int i=0; i<count; i++){
-			System.out.println("\n========== Requester receives an offer: ");
+			System.out.format( "\n========== Requester receives an offer collection for globalFrameworkId: %s \n", 
+					map.get("globalFrameworkId") );
 			Map<String, Object> _map = (Map<String, Object>)map.get( String.valueOf(i) ); 
 			for(String k : _map.keySet())
 				System.out.format( "	%s: %s", k, _map.get(k) ); 
