@@ -83,7 +83,9 @@ public class ResourceProcessor {
 		}
 		
 		Map<String, Object> offer2Exec = (Map<String, Object>)map.get( "0" ); 
-		JsonObject jsonObject = Json.createObjectBuilder()
+		JsonObject jsonObject = null;
+		try{
+		jsonObject = Json.createObjectBuilder()
 				.add("id", map.get("globalFrameworkId")+"_"+System.currentTimeMillis())
 				.add("cpus", (String)offer2Exec.get("cpus"))
 				.add("mem", (String)offer2Exec.get("mem"))
@@ -93,6 +95,9 @@ public class ResourceProcessor {
 								.add("image", ResourceCoordinator.getInstance().getGlobalFKDockerImageMap().getOrDefault(globalFKId, "") )
 								.add("network", "BRIDGE") ).build()
 				).build();
+		}catch(Exception e){
+			System.out.println(e);
+		}
 		String marathonAddr = "http://" + offer2Exec.get("Marathon") + "/v2/apps";
 		
 		System.out.format( "\n========== Requester to send request %s  to Marathon %s, for framework %s \n", 
