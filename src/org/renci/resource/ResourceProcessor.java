@@ -83,6 +83,7 @@ public class ResourceProcessor {
 		}
 		
 		Map<String, Object> offer2Exec = (Map<String, Object>)map.get( "0" ); 
+		System.out.println("offer2Exec: " + offer2Exec);
 		JsonObject jsonObject = null;
 		try{
 		jsonObject = Json.createObjectBuilder()
