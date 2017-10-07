@@ -76,7 +76,9 @@ public class ResourceProcessor {
 		System.out.format( "\n========== Requester receives an offer collection for globalFrameworkId: %s \n", 
 				globalFKId );
 		for(int i=0; i<count; i++){
-			Map<String, Object> _map = (Map<String, Object>)map.get( String.valueOf(i) ); 
+			Map<String, Object> _map = (Map<String, Object>)map.getOrDefault( String.valueOf(i), null ); 
+			if(_map==null)
+				break;
 			System.out.format( "	%d.", i );
 			for(String k : _map.keySet())
 				System.out.format( "	%s: %s ", k, _map.get(k) ); 
