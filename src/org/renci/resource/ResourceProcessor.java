@@ -78,7 +78,8 @@ public class ResourceProcessor {
 		for(int i=0; i<count; i++){
 			Map<String, Object> _map = (Map<String, Object>)map.get( String.valueOf(i) ); 
 			for(String k : _map.keySet())
-				System.out.format( "	%s: %s \n", k, _map.get(k) ); 
+				System.out.format( "	%s: %s ", k, _map.get(k) ); 
+			System.out.println("\n");
 		}
 		
 		Map<String, Object> offer2Exec = (Map<String, Object>)map.get( "0" ); 
@@ -88,11 +89,11 @@ public class ResourceProcessor {
 				.add("mem", (String)offer2Exec.get("mem"))
 				.add("container", Json.createObjectBuilder()
 						.add("type", "DOCKER") 
-						.add("docker", Json.createObjectBuilder()
-								.add("image", ResourceCoordinator.getInstance().getGlobalFKDockerImageMap().getOrDefault(globalFKId, "")))
-								.add("network", "BRIDGE").build()
+						.add( "docker", Json.createObjectBuilder()
+								.add("image", ResourceCoordinator.getInstance().getGlobalFKDockerImageMap().getOrDefault(globalFKId, "") )
+								.add("network", "BRIDGE") ).build()
 				).build();
-		String marathonAddr = map.get("Marathon") + "/v2/apps";
+		String marathonAddr = "http://" + map.get("Marathon") + "/v2/apps";
 		
 		ClientConfig config = new ClientConfig();
 		Client client = ClientBuilder.newClient(config);
