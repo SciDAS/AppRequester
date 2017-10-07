@@ -77,11 +77,13 @@ public class ResourceProcessor {
 				globalFKId );
 		for(int i=0; i<count; i++){
 			Map<String, Object> _map = (Map<String, Object>)map.get( String.valueOf(i) ); 
+			System.out.format( "	%d.", i );
 			for(String k : _map.keySet())
 				System.out.format( "	%s: %s ", k, _map.get(k) ); 
 			System.out.println("\n");
 		}
 		
+		System.out.println("Requester finished printing offers");
 		Map<String, Object> offer2Exec = (Map<String, Object>)map.get( "0" ); 
 		System.out.println("offer2Exec: " + offer2Exec);
 		JsonObject jsonObject = null;
