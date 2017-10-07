@@ -15,6 +15,9 @@ import java.net.*;
 import java.util.*;
 import java.math.BigDecimal;
 
+import javax.json.*;
+
+import org.renci.coordinator.*;
 
 /**
  * @author wenzhao
@@ -66,13 +69,40 @@ public class ResourceProcessor {
 	
 	private void processOffersInfo(Map<String, Object> map){
 		int count = map.size()-2; //skip the "type", "globalFrameworkId" fields
+		if(count==0)
+			return;
+		
+		String globalFKId = (String)map.get("globalFrameworkId");
+		System.out.format( "\n========== Requester receives an offer collection for globalFrameworkId: %s \n", 
+				globalFKId );
 		for(int i=0; i<count; i++){
-			System.out.format( "\n========== Requester receives an offer collection for globalFrameworkId: %s \n", 
-					map.get("globalFrameworkId") );
 			Map<String, Object> _map = (Map<String, Object>)map.get( String.valueOf(i) ); 
 			for(String k : _map.keySet())
 				System.out.format( "	%s: %s", k, _map.get(k) ); 
 		}
+		
+		Map<String, Object> offer2Exec = (Map<String, Object>)map.get( "0" ); 
+		JsonObject personObject = Json.createObjectBuilder()
+				.add("id", map.get("globalFrameworkId")+"_"+System.currentTimeMillis())
+				.add("cpus", (String)offer2Exec.get("cpus"))
+				.add("mem", (String)offer2Exec.get("mem"))
+				.add("container", Json.createObjectBuilder()
+						.add("type", "DOCKER") 
+						.add("docker", Json.createObjectBuilder()
+								.add("image", ResourceCoordinator.getInstance().getGlobalFKDockerImageMap().getOrDefault(globalFKId, "")))
+								.add("network", "BRIDGE").build()
+				).build();
+		String marathonAddr = map.get("Marathon") + "/v2/apps";
+		
+		System.out.format( "\n========== To send request %s  to Marathon %s, for framework %s \n", 
+				personObject.toString(), marathonAddr, globalFKId );
+		
+		ClientConfig config = new ClientConfig();
+		Client client = ClientBuilder.newClient(config);
+		WebTarget target = client.target( marathonAddr ); 
+		Invocation.Builder invocationBuilder = target.request( "application/json" );
+		Response response = invocationBuilder.post( Entity.entity( personObject, "application/json" ) );
+		response.readEntity(String.class).toString();
 	}
 	
 	private Response processAppSubmission(Map<String, Object> map){
@@ -96,6 +126,7 @@ public class ResourceProcessor {
 		System.out.println("	resources: "+resources);
 		System.out.println("	dockerImage: "+dockerImage);
 		System.out.println("	globalFrameworkId: "+globalFrameworkId);
+		ResourceCoordinator.getInstance().getGlobalFKDockerImageMap().put(globalFrameworkId, dockerImage);
 		
 		//forward the call to the specified MesosCoordinator
         ClientConfig config = new ClientConfig();
