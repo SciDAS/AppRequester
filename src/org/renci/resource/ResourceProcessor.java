@@ -85,15 +85,15 @@ public class ResourceProcessor {
 			System.out.println("\n");
 		}
 		
-		System.out.println("Requester finished printing offers");
+		//System.out.println("Requester finished printing offers");
 		Map<String, Object> offer2Exec = (Map<String, Object>)map.get( "0" ); 
-		System.out.println("offer2Exec: " + offer2Exec);
+		//System.out.println("offer2Exec: " + offer2Exec);
 		JsonObject jsonObject = null;
 		try{
 		jsonObject = Json.createObjectBuilder()
 				.add("id", map.get("globalFrameworkId")+"_"+System.currentTimeMillis())
-				.add("cpus", (String)offer2Exec.get("cpus"))
-				.add("mem", (String)offer2Exec.get("mem"))
+				.add("cpus", (java.math.BigDecimal)offer2Exec.get("cpus"))
+				.add("mem", (java.math.BigDecimal)offer2Exec.get("mem"))
 				.add("container", Json.createObjectBuilder()
 						.add("type", "DOCKER") 
 						.add( "docker", Json.createObjectBuilder()
