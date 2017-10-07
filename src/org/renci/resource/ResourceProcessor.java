@@ -83,7 +83,7 @@ public class ResourceProcessor {
 		}
 		
 		Map<String, Object> offer2Exec = (Map<String, Object>)map.get( "0" ); 
-		JsonObject personObject = Json.createObjectBuilder()
+		JsonObject jsonObject = Json.createObjectBuilder()
 				.add("id", map.get("globalFrameworkId")+"_"+System.currentTimeMillis())
 				.add("cpus", (String)offer2Exec.get("cpus"))
 				.add("mem", (String)offer2Exec.get("mem"))
@@ -93,17 +93,18 @@ public class ResourceProcessor {
 								.add("image", ResourceCoordinator.getInstance().getGlobalFKDockerImageMap().getOrDefault(globalFKId, "") )
 								.add("network", "BRIDGE") ).build()
 				).build();
-		String marathonAddr = "http://" + map.get("Marathon") + "/v2/apps";
+		String marathonAddr = "http://" + offer2Exec.get("Marathon") + "/v2/apps";
+		
+		System.out.format( "\n========== Requester to send request %s  to Marathon %s, for framework %s \n", 
+				jsonObject.toString(), marathonAddr, globalFKId );
 		
 		ClientConfig config = new ClientConfig();
 		Client client = ClientBuilder.newClient(config);
 		WebTarget target = client.target( marathonAddr ); 
 		Invocation.Builder invocationBuilder = target.request( "application/json" );
-		Response response = invocationBuilder.post( Entity.entity( personObject, "application/json" ) );
+		Response response = invocationBuilder.post( Entity.entity( jsonObject, "application/json" ) );
 		response.readEntity(String.class).toString();
 		
-		System.out.format( "\n========== Requester has sent request %s  to Marathon %s, for framework %s \n", 
-				personObject.toString(), marathonAddr, globalFKId );
 	}
 	
 	private Response processAppSubmission(Map<String, Object> map){
