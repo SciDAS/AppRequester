@@ -78,7 +78,7 @@ public class ResourceProcessor {
 		for(int i=0; i<count; i++){
 			Map<String, Object> _map = (Map<String, Object>)map.get( String.valueOf(i) ); 
 			for(String k : _map.keySet())
-				System.out.format( "	%s: %s", k, _map.get(k) ); 
+				System.out.format( "	%s: %s \n", k, _map.get(k) ); 
 		}
 		
 		Map<String, Object> offer2Exec = (Map<String, Object>)map.get( "0" ); 
@@ -94,15 +94,15 @@ public class ResourceProcessor {
 				).build();
 		String marathonAddr = map.get("Marathon") + "/v2/apps";
 		
-		System.out.format( "\n========== To send request %s  to Marathon %s, for framework %s \n", 
-				personObject.toString(), marathonAddr, globalFKId );
-		
 		ClientConfig config = new ClientConfig();
 		Client client = ClientBuilder.newClient(config);
 		WebTarget target = client.target( marathonAddr ); 
 		Invocation.Builder invocationBuilder = target.request( "application/json" );
 		Response response = invocationBuilder.post( Entity.entity( personObject, "application/json" ) );
 		response.readEntity(String.class).toString();
+		
+		System.out.format( "\n========== Requester has sent request %s  to Marathon %s, for framework %s \n", 
+				personObject.toString(), marathonAddr, globalFKId );
 	}
 	
 	private Response processAppSubmission(Map<String, Object> map){
