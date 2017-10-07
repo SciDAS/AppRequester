@@ -100,7 +100,7 @@ public class ResourceProcessor {
 		JsonObject jsonObject = null;
 		try{
 		jsonObject = Json.createObjectBuilder()
-				.add("id", map.get("globalFrameworkId")+"_"+System.currentTimeMillis())
+				.add("id", map.get("globalFrameworkId")+"-"+System.currentTimeMillis())
 				.add("cpus", cpus)
 				.add("mem", mem)
 				.add("container", Json.createObjectBuilder()
@@ -108,7 +108,10 @@ public class ResourceProcessor {
 						.add( "docker", Json.createObjectBuilder()
 								.add("image", ResourceCoordinator.getInstance().getGlobalFKDockerImageMap().getOrDefault(globalFKId, "") )
 								.add("network", "BRIDGE") ).build()
-				).build();
+				)
+				.add("constraints", Json.createArrayBuilder().
+						add( Json.createArrayBuilder().add("hostname").add("CLUSTER").add( (String)offer2Exec.get("Agent") ) ) )
+				.build();
 		}catch(Exception e){
 			System.out.println(e);
 		}

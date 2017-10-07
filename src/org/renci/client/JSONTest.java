@@ -24,15 +24,20 @@ public class JSONTest {
 						.add("docker", Json.createObjectBuilder()
 								.add("image", "mycoy/repository:sleeper01")
 								.add("network", "BRIDGE") ).build()
-				).build();
-		String marathonAddr = "http://129.114.111.199:9090" + "/v2/apps";
+				).add("constraints", 
+						Json.createArrayBuilder()
+						.add( Json.createArrayBuilder().add("11").add("22").add("33") ) )
+				.build();
+		
+		System.out.println(personObject.toString());
+		/*String marathonAddr = "http://129.114.111.199:9090" + "/v2/apps";
 		
 		ClientConfig config = new ClientConfig();
 		Client client = ClientBuilder.newClient(config);
 		WebTarget target = client.target( marathonAddr ); 
 		Invocation.Builder invocationBuilder = target.request( "application/json" );
 		Response response = invocationBuilder.post( Entity.entity( personObject, "application/json" ) );
-		response.readEntity(String.class).toString();
+		response.readEntity(String.class).toString();*/
 	}
 
 }
