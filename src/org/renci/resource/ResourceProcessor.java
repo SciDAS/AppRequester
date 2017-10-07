@@ -87,13 +87,22 @@ public class ResourceProcessor {
 		
 		//System.out.println("Requester finished printing offers");
 		Map<String, Object> offer2Exec = (Map<String, Object>)map.get( "0" ); 
+		String[] resources = ResourceCoordinator.getInstance().getGlobalFKResourceMap().getOrDefault(globalFKId, "").split(";"); 
+		double cpus=1, mem=32;
+		for(String r : resources){
+			if( r.equals("cpus") )
+				cpus = Double.parseDouble(r);
+			if( r.equals("mem") )
+				mem = Double.parseDouble(r);
+		}
+		
 		//System.out.println("offer2Exec: " + offer2Exec);
 		JsonObject jsonObject = null;
 		try{
 		jsonObject = Json.createObjectBuilder()
 				.add("id", map.get("globalFrameworkId")+"_"+System.currentTimeMillis())
-				.add("cpus", (java.math.BigDecimal)offer2Exec.get("cpus"))
-				.add("mem", (java.math.BigDecimal)offer2Exec.get("mem"))
+				.add("cpus", cpus)
+				.add("mem", mem)
 				.add("container", Json.createObjectBuilder()
 						.add("type", "DOCKER") 
 						.add( "docker", Json.createObjectBuilder()
@@ -139,6 +148,7 @@ public class ResourceProcessor {
 		System.out.println("	dockerImage: "+dockerImage);
 		System.out.println("	globalFrameworkId: "+globalFrameworkId);
 		ResourceCoordinator.getInstance().getGlobalFKDockerImageMap().put(globalFrameworkId, dockerImage);
+		ResourceCoordinator.getInstance().getGlobalFKResourceMap().put(globalFrameworkId, resources);
 		
 		//forward the call to the specified MesosCoordinator
         ClientConfig config = new ClientConfig();

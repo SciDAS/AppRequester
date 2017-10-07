@@ -5,6 +5,7 @@ import java.util.*;
 public class ResourceCoordinator {
 	private static ResourceCoordinator coordinator = null;
 	private Map<String, String> globalFKDockerImageMap = null;
+	private Map<String, String> globalFKResourceMap = null;
 	
 	/**
 	 * The private constructor.
@@ -12,6 +13,7 @@ public class ResourceCoordinator {
 	 */
 	private ResourceCoordinator(){
 		globalFKDockerImageMap = new HashMap<String, String>();
+		globalFKResourceMap = new HashMap<String, String>();
 	}
 	
 	/**
@@ -26,6 +28,10 @@ public class ResourceCoordinator {
 
 	public Map<String, String> getGlobalFKDockerImageMap() {
 		return globalFKDockerImageMap;
+	}
+
+	public Map<String, String> getGlobalFKResourceMap() {
+		return globalFKResourceMap;
 	}
 	
 }
