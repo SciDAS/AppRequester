@@ -110,7 +110,7 @@ public class ResourceProcessor {
 								.add("network", "BRIDGE") ).build()
 				)
 				.add("constraints", Json.createArrayBuilder().
-						add( Json.createArrayBuilder().add("hostname").add("CLUSTER").add( (String)offer2Exec.get("Agent") ) ) )
+						add( Json.createArrayBuilder().add("hostname").add("CLUSTER").add( (String)offer2Exec.get("agent") ) ) )
 				.build();
 		}catch(Exception e){
 			System.out.println(e);
